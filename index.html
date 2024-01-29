@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Contact Your County Commissioner</title>
+
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css"
+      integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N"
+      crossorigin="anonymous"
+    />
+  </head>
+  <body>
+    <div id="app" class="container-fluid my-3">
+      <div
+        is="HcEsriSearchForm"
+        show-map="true"
+        v-bind:map-layers="[featureLayer]"
+        @result="handleResult"
+      >
+        &nbsp;
+      </div>
+    </div>
+
+    <script src="https://unpkg.com/babel-polyfill@6.26.0/dist/polyfill.min.js"></script>
+    <script src="https://unpkg.com/vue@2.7.16/dist/vue.min.js"></script>
+    <script src="https://unpkg.com/@hcflgov/vue-esri-search@1.1.1/dist/HcEsriSearchForm.umd.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/iframe-resizer@4.3.9/js/iframeResizer.contentWindow.min.js"></script>
+    <script>
+      Vue.mixin({
+        components: {
+          HcEsriSearchForm: HcEsriSearchForm,
+        },
+      });
+
+      new Vue({
+        data: function data() {
+          return {
+            featureLayer: {
+              url: "https://services.arcgis.com/apTfC6SUmnNfnxuF/ArcGIS/rest/services/ElectoralDistricts/FeatureServer/3",
+              outFields: ["*"],
+              popupTemplate: {
+                title: "{NAME}",
+                content:
+                  '<p class="font-weight-bold">Representative: <a href="{DISTRICTURL1}">{REPNAME1}</a></p>',
+                lastEditInfoEnabled: false,
+              },
+            },
+          };
+        },
+        methods: {
+          handleResult: function handleResult(result) {
+            result.queryFeatures(this.featureLayer);
+          },
+        },
+      }).$mount("#app");
+    </script>
+  </body>
+</html>
