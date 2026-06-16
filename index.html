@@ -16,9 +16,27 @@
       rel="stylesheet"
       href="https://unpkg.com/font-awesome@4.7.0/css/font-awesome.min.css"
     />
+
+    <style>
+      html,
+      body,
+      #app,
+      #app > form {
+        height: 100%;
+      }
+
+      #app > form {
+        display: flex;
+        flex-direction: column;
+      }
+
+      #app > form > .embed-responsive {
+        flex-grow: 1;
+      }
+    </style>
   </head>
   <body>
-    <div id="app" class="container-fluid my-3">
+    <div id="app" class="p-2">
       <div
         is="HcEsriSearchForm"
         show-map="true"
